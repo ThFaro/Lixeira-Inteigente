@@ -1,0 +1,52 @@
+
+int distancia = 0;
+int led = 0;
+const int pino_buzzer = 4;
+int buzzer = 0;
+const int c = 261; // Dó
+
+
+long readUltrasonicDistance(int triggerPin, int echoPin)
+{
+  pinMode(triggerPin, OUTPUT);  
+  digitalWrite(triggerPin, LOW);
+  delayMicroseconds(2);
+
+  digitalWrite(triggerPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(triggerPin, LOW);
+  pinMode(echoPin, INPUT);
+
+  return pulseIn(echoPin, HIGH);
+}
+
+void setup()
+{
+  pinMode(pino_buzzer, INPUT);
+  pinMode(10, INPUT);
+  pinMode(10, OUTPUT);
+  pinMode(pino_buzzer, OUTPUT);
+}
+
+void loop()
+{
+  buzzer = digitalRead(4);
+  led = digitalRead(10);
+  distancia = 0.01723 * readUltrasonicDistance(7, 6);
+  if (distancia <= 10) {
+    digitalWrite(10, HIGH);
+  } else {
+    digitalWrite(10, LOW);
+  }
+  if (distancia <= 10) {
+    digitalWrite(4, HIGH);
+    tone (pino_buzzer,c);
+  } else {
+    digitalWrite(4, LOW);
+     noTone (pino_buzzer);
+
+
+  }
+  
+  delay(10);
+}
